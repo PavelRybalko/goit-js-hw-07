@@ -1,0 +1,15 @@
+const inputRef = document.querySelector("input#validation-input");
+
+const isValid = () => {
+  if (inputRef.textLength === +inputRef.dataset.length) {
+    inputRef.classList.contains("invalid")
+      ? inputRef.classList.replace("invalid", "valid")
+      : inputRef.classList.add("valid");
+  } else {
+    inputRef.classList.contains("valid")
+      ? inputRef.classList.replace("valid", "invalid")
+      : inputRef.classList.add("invalid");
+  }
+};
+
+inputRef.addEventListener("change", isValid);

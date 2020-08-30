@@ -5,18 +5,32 @@ const buttonDestroyRef = document.querySelector(
   'button[data-action="destroy"]'
 );
 
-const randomRGB = () => Math.round(Math.random() * 255);
+const randomRGB = () => {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+  return `rgb(${r},${g},${b})`;
+};
 
-const createBoxes = (amount) => {
-  let markupArr = [];
-  for (let i = 0; i < amount; i += 1) {
-    const box = document.createElement("div");
-    box.style.backgroundColor = `rgb(${randomRGB()},${randomRGB()},${randomRGB()})`;
-    box.style.width = `${30 + i * 10}px`;
-    box.style.height = `${30 + i * 10}px`;
-    markupArr = [...markupArr, box];
-  }
-  outputRef.append(...markupArr);
+const createBox = (size) => {
+  const box = document.createElement("div");
+  box.style.backgroundColor = randomRGB();
+  box.style.width = size;
+  box.style.height = size;
+  return box;
+};
+
+const createBoxesMarkup = (amount) => {
+  const fragment = document.createDocumentFragment();
+  const createBoxesWithSize = () => {
+    for (let i = 0; i < amount; i += 1) {
+      const size = 30 + i * 10 + "px";
+      const box = createBox(size);
+      fragment.appendChild(box);
+    }
+  };
+  createBoxesWithSize();
+  outputRef.appendChild(fragment);
 };
 
 const destroyBoxes = () => {
@@ -24,6 +38,6 @@ const destroyBoxes = () => {
 };
 
 buttonCreateRef.addEventListener("click", () => {
-  createBoxes(+inputRef.value);
+  createBoxesMarkup(+inputRef.value);
 });
 buttonDestroyRef.addEventListener("click", destroyBoxes);
